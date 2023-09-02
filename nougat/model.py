@@ -177,6 +177,10 @@ class SwinEncoder(nn.Module):
             print("Mean value of img after rotating:", np.mean(np.array(img)).mean())
 
         img = resize(img, min(self.input_size))
+
+        print("Shape of img after resizing:", np.array(img).shape)
+        print("Mean value of img after rotating:", np.mean(np.array(img)).mean())
+
         img.thumbnail((self.input_size[1], self.input_size[0]))
         delta_width = self.input_size[1] - img.width
         delta_height = self.input_size[0] - img.height
