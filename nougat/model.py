@@ -572,6 +572,18 @@ class NougatModel(PreTrainedModel):
         if image_tensors is None:
             image_tensors = self.encoder.prepare_input(image).unsqueeze(0)
         image_tensors = image_tensors
+
+        torch.save(image_tensors, "pixel_values_nougat.pt")
+
+        from huggingface_hub import HfApi
+        api = HfApi()
+        api.upload_file(
+            path_or_fileobj="pixel_values_nougat.pt",
+            path_in_repo="pixel_values_nougat.pt",
+            repo_id="nielsr/test-data-nougat",
+            repo_type="dataset",
+        )
+
         if self.device.type == "cuda":  # half is not compatible in cpu implementation.
             image_tensors = image_tensors.to(self.device)
 
