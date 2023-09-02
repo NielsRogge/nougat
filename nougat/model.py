@@ -571,10 +571,9 @@ class NougatModel(PreTrainedModel):
 
         if image_tensors is None:
             image_tensors = self.encoder.prepare_input(image).unsqueeze(0)
-
-        if self.device.type != "mps":
-            image_tensors = image_tensors.to(torch.bfloat16)
-        image_tensors = image_tensors.to(self.device)
+        image_tensors = image_tensors
+        if self.device.type == "cuda":  # half is not compatible in cpu implementation.
+            image_tensors = image_tensors.to(self.device)
 
         last_hidden_state = self.encoder(image_tensors)
 
@@ -606,6 +605,9 @@ class NougatModel(PreTrainedModel):
                 [StoppingCriteriaScores()] if early_stopping else []
             ),
         )
+
+        print("Generated ids:", decoder_output.sequences)
+
         output["repetitions"] = decoder_output.sequences.clone()
         output["sequences"] = decoder_output.sequences.clone()
         batch_size = len(decoder_output.sequences)
