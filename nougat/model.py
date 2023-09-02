@@ -172,7 +172,10 @@ class SwinEncoder(nn.Module):
             (self.input_size[0] > self.input_size[1] and img.width > img.height)
             or (self.input_size[0] < self.input_size[1] and img.width < img.height)
         ):
+            print("we are rotating the image")
             img = rotate(img, angle=-90, expand=True)
+            print("Mean value of img after rotating:", np.mean(np.array(img)).mean())
+
         img = resize(img, min(self.input_size))
         img.thumbnail((self.input_size[1], self.input_size[0]))
         delta_width = self.input_size[1] - img.width
