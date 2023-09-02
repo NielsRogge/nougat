@@ -206,7 +206,12 @@ class SwinEncoder(nn.Module):
         print("Shape of image after padding:", np.array(padded_img).shape)
         print("Mean of image after padding:", np.mean(np.array(padded_img)).mean())
 
-        return self.to_tensor(ImageOps.expand(img, padding))
+        rescaled_img = self.to_tensor(ImageOps.expand(img, padding))
+
+        print("Shape of image after rescaling:", np.array(rescaled_img).shape)
+        print("Mean of image after rescaling:", np.mean(np.array(rescaled_img)).mean())
+
+        return rescaled_img
 
 
 class BARTDecoder(nn.Module):
