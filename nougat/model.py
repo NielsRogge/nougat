@@ -179,9 +179,13 @@ class SwinEncoder(nn.Module):
         img = resize(img, min(self.input_size))
 
         print("Shape of img after resizing:", np.array(img).shape)
-        print("Mean value of img after rotating:", np.mean(np.array(img)).mean())
+        print("Mean value of img after resizing:", np.mean(np.array(img)).mean())
 
         img.thumbnail((self.input_size[1], self.input_size[0]))
+
+        print("Shape of image after thumbnail:", np.array(img).shape)
+        print("Mean of image after thumbnail:", np.mean(np.array(img)).mean())
+
         delta_width = self.input_size[1] - img.width
         delta_height = self.input_size[0] - img.height
         if random_padding:
@@ -196,6 +200,12 @@ class SwinEncoder(nn.Module):
             delta_width - pad_width,
             delta_height - pad_height,
         )
+
+        padded_img = ImageOps.expand(img, padding)
+
+        print("Shape of image after padding:", np.array(padded_img).shape)
+        print("Mean of image after padding:", np.mean(np.array(padded_img)).mean())
+
         return self.to_tensor(ImageOps.expand(img, padding))
 
 
