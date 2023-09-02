@@ -208,8 +208,8 @@ class SwinEncoder(nn.Module):
 
         rescaled_img = self.to_tensor(ImageOps.expand(img, padding))
 
-        print("Shape of image after rescaling:", np.array(rescaled_img).shape)
-        print("Mean of image after rescaling:", np.mean(np.array(rescaled_img)).mean())
+        print("Shape of image after test transform:", np.array(rescaled_img).shape)
+        print("Mean of image after test transform:", np.mean(np.array(rescaled_img)).mean())
 
         return rescaled_img
 
